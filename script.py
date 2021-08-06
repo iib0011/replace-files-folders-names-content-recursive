@@ -1,9 +1,9 @@
 import os
 
-path = "C:\\Users\\**********"
+path = "C:\\a"
 
 # entities = [["student", "admin"], ["don", "contribution"]]
-entities = [["nbDeTranches", "sliceCount"],
+entities = [["h", "dfnd"],
 
             ]
 
@@ -21,7 +21,7 @@ def replaceInFile(path, fromString, toString):
         f.write(newdata)
         f.close()
 
-# r=root, d=directories, f =
+
 def getDirectories(path):
     directories = []
     for r, d, f in os.walk(path):
@@ -39,9 +39,10 @@ def getFiles(path):
 
 
 def replaceOsList(files, fromString, toString):
+    print("Replacing folders and files names from "+fromString+" to "+toString)
     for index, f in enumerate(files):
-        if f.__contains__(fromString):
-            new_file_name = f.replace(fromString, toString)
+        if f[len(path):].__contains__(fromString):
+            new_file_name = path+f[len(path):].replace(fromString, toString)
             os.rename(f, new_file_name)
             files[index] = new_file_name
             print(new_file_name)
@@ -57,6 +58,7 @@ def updateFiles(path, fromString, toString):
     replaceOsList(files, fromString, toString)
 
 
+# r=root, d=directories, f =
 
 def run(fromString, toString):
     updateDirectories(path, fromString, toString)
@@ -65,14 +67,19 @@ def run(fromString, toString):
 
 
 def cap(word):
-    return word[0].upper() + word[1:]
+    if(len(word)):
+        return word[0].upper() + word[1:]
+    return ""
 
 
 for entity in entities:
     fromString = entity[0]
     toString = entity[1]
-    fromStrings = [fromString, fromString.lower(), cap(fromString)]
-    toStrings = [toString, toString.lower(), cap(toString)]
-    for i in range(0, 3):
-        print(fromStrings[i] + toStrings[i])
-        run(fromStrings[i], toStrings[i])
+    if(len(fromString)):
+        fromStrings = [fromString, fromString.lower(), cap(fromString)]
+        toStrings = [toString, toString.lower(), cap(toString)]
+        for i in range(0, 3):
+            run(fromStrings[i], toStrings[i])
+    else:
+        print("Cant replace to "+toString+" if there is no value ");
+        break;
